@@ -1,0 +1,34 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: floatIn 0.35s ease both;
+}
+
+.dangerSection {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-color: rgba(255, 107, 107, 0.3);
+}
+
+.dangerSection h3 {
+  font-size: 17px;
+  color: var(--danger);
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: -6px;
+}
+
+.confirmRow {
+  display: flex;
+  gap: 10px;
+}
+
+.confirmRow .btn {
+  flex: 1;
+}

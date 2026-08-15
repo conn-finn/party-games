@@ -1,0 +1,75 @@
+.wrap {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: max(24px, var(--safe-top)) 20px max(24px, var(--safe-bottom));
+  gap: 28px;
+}
+
+.hero {
+  text-align: center;
+  animation: floatIn 0.5s ease both;
+}
+
+.emoji {
+  font-size: 56px;
+  display: inline-block;
+  animation: bounce 2.4s ease-in-out infinite;
+}
+
+.title {
+  font-size: 40px;
+  background: linear-gradient(135deg, var(--gold), var(--pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-top: 4px;
+}
+
+.tagline {
+  color: var(--text-dim);
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+.card {
+  width: 100%;
+  max-width: 380px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: popIn 0.4s ease both;
+  animation-delay: 0.1s;
+}
+
+.modeToggle {
+  align-self: center;
+}
+
+.modeToggle button {
+  flex: 1;
+}
+
+.codeInput {
+  font-family: var(--font-mono);
+  letter-spacing: 0.3em;
+  text-align: center;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.loadingRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-dim);
+}

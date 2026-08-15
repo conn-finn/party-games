@@ -1,0 +1,24 @@
+.wrap {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+  padding: 32px;
+}
+
+.emoji {
+  font-size: 56px;
+}
+
+.wrap p {
+  color: var(--text-dim);
+  max-width: 320px;
+  line-height: 1.5;
+}
+
+.wrap h1 {
+  font-size: 28px;
+}

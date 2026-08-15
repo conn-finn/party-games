@@ -1,0 +1,202 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: floatIn 0.35s ease both;
+}
+
+.intro h2 {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.intro p {
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.option::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  background: var(--option-color);
+}
+
+.option:active {
+  transform: scale(0.98);
+}
+
+.option.selected {
+  border-color: var(--option-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--option-color) 35%, transparent);
+  animation: pulseGlow 1.8s ease-in-out infinite;
+}
+
+.optionName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  padding-left: 8px;
+}
+
+.check {
+  font-size: 20px;
+  color: var(--option-color);
+  font-weight: 900;
+}
+
+.progressWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.progressBar {
+  height: 10px;
+  background: var(--ink-soft);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--mint), var(--sky));
+  transition: width 0.4s ease;
+}
+
+.progressLabel {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.tallyCard {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tallyTitle {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+.tallyRow {
+  display: grid;
+  grid-template-columns: 96px 1fr 24px;
+  align-items: center;
+  gap: 10px;
+}
+
+.tallyName {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tallyBarTrack {
+  height: 8px;
+  background: var(--ink-soft);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.tallyBarFill {
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+.tallyCount {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-align: right;
+}
+
+/* --- now-playing state --- */
+.playingCard {
+  padding: 40px 24px;
+  text-align: center;
+  animation: popIn 0.4s ease both;
+}
+
+.playingEmoji {
+  font-size: 52px;
+  animation: bounce 1.6s ease-in-out infinite;
+}
+
+.nowPlayingLabel {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.gameName {
+  font-size: 30px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, var(--mint), var(--sky));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.playingSubtitle {
+  color: var(--text-dim);
+  margin-top: 14px;
+  font-size: 14px;
+}
+
+/* --- empty state --- */
+.emptyCard {
+  padding: 48px 24px;
+  text-align: center;
+  animation: floatIn 0.4s ease both;
+}
+
+.emptyEmoji {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.emptyCard h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.emptyCard p {
+  color: var(--text-dim);
+  font-size: 14px;
+}

@@ -1,0 +1,104 @@
+.podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px 8px 8px;
+  position: relative;
+}
+
+.pedestal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  animation: popIn 0.5s ease both;
+}
+
+.first {
+  animation-delay: 0.15s;
+}
+.second {
+  animation-delay: 0.05s;
+}
+.third {
+  animation-delay: 0.25s;
+}
+
+.medal {
+  font-size: 30px;
+  animation: bounce 2.2s ease-in-out infinite;
+}
+
+.first .medal {
+  font-size: 38px;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 4px;
+  max-width: 96px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.team {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.score {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 2px;
+}
+
+.block {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.blockLabel {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.first .block {
+  height: 108px;
+  background: linear-gradient(180deg, var(--gold), #d99f2b);
+  box-shadow: 0 0 30px rgba(255, 200, 87, 0.35);
+}
+
+.second .block {
+  height: 78px;
+  background: linear-gradient(180deg, var(--silver), #8f97a3);
+}
+
+.third .block {
+  height: 56px;
+  background: linear-gradient(180deg, var(--bronze), #a8623c);
+}
+
+.sortNote {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}

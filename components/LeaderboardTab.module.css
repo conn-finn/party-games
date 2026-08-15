@@ -1,0 +1,83 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: floatIn 0.35s ease both;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.header h2 {
+  font-size: 24px;
+}
+
+.podiumCard {
+  padding: 8px 8px 16px;
+}
+
+.chartCard {
+  padding: 16px 12px;
+}
+
+.fullList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.listRow {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+}
+
+.rank {
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.rowName {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowTeam {
+  color: var(--text-dim);
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.rowTotal {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.emptyCard {
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.emptyEmoji {
+  font-size: 44px;
+  margin-bottom: 10px;
+}
+
+.emptyCard p {
+  color: var(--text-dim);
+  font-size: 14px;
+  margin-top: 6px;
+}
