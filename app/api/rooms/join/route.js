@@ -37,6 +37,7 @@ async function createRoomAndJoin(supabase, username) {
 
     if (roomError) {
       if (roomError.code === "23505") continue; // unique_violation on code, retry
+      console.error("[POST /api/rooms/join] room insert failed:", roomError);
       return jsonError("Could not create a room right now. Please try again.", 500);
     }
 
@@ -52,6 +53,7 @@ async function createRoomAndJoin(supabase, username) {
       .maybeSingle();
 
     if (userError) {
+      console.error("[POST /api/rooms/join] user insert failed:", userError);
       return jsonError("Could not create your player. Please try again.", 500);
     }
 
@@ -94,6 +96,7 @@ async function joinExistingRoom(supabase, username, roomCodeInput) {
         409
       );
     }
+    console.error("[POST /api/rooms/join] joinExistingRoom user insert failed:", userError);
     return jsonError("Could not join the room. Please try again.", 500);
   }
 
