@@ -37,7 +37,7 @@ export default function AdminTab({ code, session, state, refresh }) {
       <section className={`card ${styles.dangerSection}`}>
         <h3>End this room</h3>
         <p className={styles.subtitle}>
-          Rooms stay open until you end them — even between game nights. This can't be undone.
+          Rooms stay open until you end them — even between game nights. This can&apos;t be undone.
         </p>
         {error && <p className="error-banner">{error}</p>}
         {!confirmingEnd ? (

@@ -41,7 +41,7 @@ function StartRound({ code, session, state, refresh }) {
   return (
     <section className={`card ${styles.section}`}>
       <h3>Start the next round</h3>
-      <p className={styles.subtitle}>3 random games will be offered for a vote — players won't see the rest of the list.</p>
+      <p className={styles.subtitle}>3 random games will be offered for a vote — players won&apos;t see the rest of the list.</p>
 
       <div>
         <span className="field-label">Scoring for this round</span>

@@ -9,7 +9,7 @@ export default function RoomEnded({ code }) {
       <div className={styles.emoji} aria-hidden="true">
         🎊
       </div>
-      <h1>That's a wrap!</h1>
+      <h1>That&apos;s a wrap!</h1>
       <p>
         The admin ended room <strong>{code}</strong>. Thanks for playing — final scores are no longer editable.
       </p>

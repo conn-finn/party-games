@@ -158,7 +158,7 @@ function HomePageInner() {
         </button>
 
         {mode === "create" && (
-          <p className={styles.hint}>You'll get a room code to share — first one in runs the show.</p>
+          <p className={styles.hint}>You&apos;ll get a room code to share — first one in runs the show.</p>
         )}
       </form>
     </main>
