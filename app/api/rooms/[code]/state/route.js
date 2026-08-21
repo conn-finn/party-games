@@ -73,25 +73,26 @@ export async function GET(request, { params }) {
 }
 
 async function buildRoundPayload(supabase, round, admin, selfUserId) {
-  const { data: roundOptions } = await supabase
-    .from("round_options")
-    .select("id, game_option_id, game_options(name)")
-    .eq("round_id", round.id);
-
-  const options = (roundOptions || []).map((ro) => ({
-    id: ro.id,
-    gameOptionId: ro.game_option_id,
-    name: ro.game_options?.name || "Unknown game",
-  }));
-
   const base = {
     id: round.id,
     status: round.status,
     scoringMode: round.scoring_mode,
-    options,
+    options: [],
   };
 
   if (round.status === "voting") {
+    const { data: roundOptions } = await supabase
+      .from("round_options")
+      .select("id, game_option_id, game_options(name)")
+      .eq("round_id", round.id);
+
+    const options = (roundOptions || []).map((ro) => ({
+      id: ro.id,
+      gameOptionId: ro.game_option_id,
+      name: ro.game_options?.name || "Unknown game",
+    }));
+    base.options = options;
+
     const { data: votes } = await supabase
       .from("votes")
       .select("user_id, game_option_id")
@@ -112,8 +113,15 @@ async function buildRoundPayload(supabase, round, admin, selfUserId) {
   }
 
   if (round.status === "in_progress") {
-    const winningOption = options.find((o) => o.gameOptionId === round.winning_game_option_id);
-    base.winningGameName = winningOption ? winningOption.name : null;
+    // Resolved directly from game_options (not via round_options) so this
+    // works whether the round came from a vote or the admin manually
+    // picked the game (which never creates round_options rows at all).
+    const { data: winningGame } = await supabase
+      .from("game_options")
+      .select("name")
+      .eq("id", round.winning_game_option_id)
+      .maybeSingle();
+    base.winningGameName = winningGame?.name || null;
     base.winningGameOptionId = round.winning_game_option_id;
 
     if (admin) {

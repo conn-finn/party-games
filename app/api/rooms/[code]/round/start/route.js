@@ -1,6 +1,6 @@
 import { supabaseServer } from "@/lib/supabaseServer";
 import { jsonOk, jsonError, getRoomByCode, authenticateUser, isAdmin } from "@/lib/apiHelpers";
-import { getActiveRound } from "@/lib/rounds";
+import { getActiveRound, ensureScoringModeIsPlayable } from "@/lib/rounds";
 import { pickRandomGames } from "@/lib/gameSelection";
 
 // POST /api/rooms/[code]/round/start
@@ -21,17 +21,8 @@ export async function POST(request, { params }) {
   const existingRound = await getActiveRound(supabase, room.id);
   if (existingRound) return jsonError("A round is already in progress.", 409);
 
-  if (scoringMode === "team") {
-    const { data: teamsWithMembers } = await supabase
-      .from("users")
-      .select("team_id")
-      .eq("room_id", room.id)
-      .not("team_id", "is", null);
-    const distinctTeams = new Set((teamsWithMembers || []).map((r) => r.team_id));
-    if (distinctTeams.size === 0) {
-      return jsonError("Create at least one team with players on it before scoring by team.", 400);
-    }
-  }
+  const scoringError = await ensureScoringModeIsPlayable(supabase, room.id, scoringMode);
+  if (scoringError) return jsonError(scoringError, 400);
 
   const { data: allGames } = await supabase
     .from("game_options")

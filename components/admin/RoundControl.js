@@ -18,11 +18,33 @@ export default function RoundControl({ code, session, state, refresh }) {
 
 function StartRound({ code, session, state, refresh }) {
   const hasTeamsWithMembers = state.players.some((p) => p.teamId);
+  const games = state.adminGameOptions || [];
+  const [startMode, setStartMode] = useState("vote"); // 'vote' | 'manual'
   const [scoringMode, setScoringMode] = useState("individual");
+  const [selectedGameId, setSelectedGameId] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  async function handleStart() {
+  const scoringToggle = (
+    <div>
+      <span className="field-label">Scoring for this round</span>
+      <div className="pill-toggle">
+        <button className={scoringMode === "individual" ? "active" : ""} onClick={() => setScoringMode("individual")}>
+          By player
+        </button>
+        <button
+          className={scoringMode === "team" ? "active" : ""}
+          onClick={() => setScoringMode("team")}
+          disabled={!hasTeamsWithMembers}
+          title={!hasTeamsWithMembers ? "Assign players to a team first" : undefined}
+        >
+          By team
+        </button>
+      </div>
+    </div>
+  );
+
+  async function handleStartVote() {
     setSubmitting(true);
     setError("");
     try {
@@ -38,33 +60,85 @@ function StartRound({ code, session, state, refresh }) {
     }
   }
 
+  async function handleStartManual() {
+    if (!selectedGameId) {
+      setError("Choose a game first.");
+      return;
+    }
+    setSubmitting(true);
+    setError("");
+    try {
+      await apiPost(`/api/rooms/${code}/round/start-manual`, {
+        userId: session.userId,
+        token: session.token,
+        gameOptionId: selectedGameId,
+        scoringMode,
+      });
+      await refresh();
+    } catch (err) {
+      setError(err.message);
+      setSubmitting(false);
+    }
+  }
+
   return (
     <section className={`card ${styles.section}`}>
       <h3>Start the next round</h3>
-      <p className={styles.subtitle}>3 random games will be offered for a vote — players won&apos;t see the rest of the list.</p>
 
-      <div>
-        <span className="field-label">Scoring for this round</span>
-        <div className="pill-toggle">
-          <button className={scoringMode === "individual" ? "active" : ""} onClick={() => setScoringMode("individual")}>
-            By player
-          </button>
-          <button
-            className={scoringMode === "team" ? "active" : ""}
-            onClick={() => setScoringMode("team")}
-            disabled={!hasTeamsWithMembers}
-            title={!hasTeamsWithMembers ? "Assign players to a team first" : undefined}
-          >
-            By team
-          </button>
-        </div>
+      <div className="pill-toggle">
+        <button className={startMode === "vote" ? "active" : ""} onClick={() => setStartMode("vote")}>
+          Random vote
+        </button>
+        <button className={startMode === "manual" ? "active" : ""} onClick={() => setStartMode("manual")}>
+          Pick a game
+        </button>
       </div>
 
-      {error && <p className="error-banner">{error}</p>}
+      {startMode === "vote" ? (
+        <>
+          <p className={styles.subtitle}>3 random games will be offered for a vote — players won&rsquo;t see the rest of the list.</p>
+          {scoringToggle}
+          {error && <p className="error-banner">{error}</p>}
+          <button className="btn btn-primary btn-block" onClick={handleStartVote} disabled={submitting}>
+            {submitting ? <span className="spinner" /> : "Start voting round"}
+          </button>
+        </>
+      ) : (
+        <>
+          <p className={styles.subtitle}>
+            Jump straight into a game you choose — there&rsquo;s no vote, so players won&rsquo;t see this screen at all.
+          </p>
 
-      <button className="btn btn-primary btn-block" onClick={handleStart} disabled={submitting}>
-        {submitting ? <span className="spinner" /> : "Start voting round"}
-      </button>
+          <div>
+            <span className="field-label">Game</span>
+            <select
+              className={`text-input ${styles.gameSelect}`}
+              value={selectedGameId}
+              onChange={(e) => setSelectedGameId(e.target.value)}
+            >
+              <option value="">Choose a game…</option>
+              {games.map((g) => (
+                <option key={g.id} value={g.id}>
+                  {g.name}
+                  {g.played ? " (played)" : ""}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {scoringToggle}
+
+          {error && <p className="error-banner">{error}</p>}
+
+          <button
+            className="btn btn-primary btn-block"
+            onClick={handleStartManual}
+            disabled={submitting || !selectedGameId}
+          >
+            {submitting ? <span className="spinner" /> : "Start this game now"}
+          </button>
+        </>
+      )}
     </section>
   );
 }

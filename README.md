@@ -253,13 +253,27 @@ A "round" (`rounds` table) mirrors this for a single game: `voting` →
 time (`lib/rounds.js`'s `getActiveRound`), which is what the whole UI keys
 off of to decide what to show.
 
-### Voting
+### Starting a game
 
-- `POST /api/rooms/[code]/round/start` (admin only) — picks 3 games, creates
-  the round, sets the room to `voting`.
+The admin has two ways to pick the next game, both from the Admin tab's
+"Start the next round" section:
+
+- **Random vote** (the original flow) — `POST /api/rooms/[code]/round/start`
+  picks 3 games, creates the round, sets the room to `voting`.
+- **Pick a game** (manual) — `POST /api/rooms/[code]/round/start-manual`
+  lets the admin choose any game directly and jumps straight to
+  `in_progress`, skipping the voting stage entirely. No `round_options` rows
+  are created for this round, so the Vote tab never shows a vote for it —
+  non-admin players go straight from "no vote right now" to "now playing."
+  This is useful when the admin already knows what's next (or wants to
+  re-run a specific game) without bothering the group with a vote.
+
+Once a round is active (by either path):
+
 - `POST /api/rooms/[code]/round/vote` (any player) — casts or changes a
   vote. Votes are stored one-per-player via a database `unique` constraint
-  and an upsert, so re-voting just overwrites the previous choice.
+  and an upsert, so re-voting just overwrites the previous choice. (Only
+  applies to rounds started by vote, obviously.)
 - `POST /api/rooms/[code]/round/end-voting` (admin only) — tallies votes,
   picks the winner (ties broken randomly), marks that game `played`, and
   moves the round to `in_progress`.
@@ -310,6 +324,7 @@ app/
     [code]/teams/route.js       Admin: create a team
     [code]/teams/assign/route.js  Admin: assign a player to a team
     [code]/round/start/route.js       Admin: start a voting round
+    [code]/round/start-manual/route.js  Admin: hand-pick a game, skipping the vote
     [code]/round/vote/route.js        Player: cast a vote
     [code]/round/end-voting/route.js  Admin: lock in the winning game
     [code]/round/scores/route.js      Admin: submit scores, finish round
